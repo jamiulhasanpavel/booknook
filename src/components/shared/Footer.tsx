@@ -113,7 +113,7 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-3 px-6 py-6 text-center text-xs text-gray-400 md:flex-row">
           <p>
-            © {new Date().getFullYear()} BookNook. All rights reserved.
+            © 2026 BookNook. All rights reserved.
           </p>
 
           <p>
