@@ -3,7 +3,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 import {
   BookOpen,
   Menu,
@@ -11,8 +12,6 @@ import {
   ChevronDown,
   UserRound,
   LogOut,
-  Library,
-  Bookmark,
 } from "lucide-react";
 
 type NavbarUser = {
@@ -34,6 +33,25 @@ export default function Navbar({
   const [profileOpen, setProfileOpen] = useState(false);
 
   const pathname = usePathname();
+  const router = useRouter();
+  const { data: session } = authClient.useSession();
+  const activeUser = user ?? (session?.user
+    ? {
+        name: session.user.name,
+        email: session.user.email,
+        image: session.user.image ?? undefined,
+      }
+    : null);
+
+  async function handleLogout() {
+    if (onLogout) {
+      onLogout();
+    } else {
+      await authClient.signOut();
+      router.push("/login");
+      router.refresh();
+    }
+  }
 
   const publicLinks = [
     { name: "Home", href: "/" },
@@ -41,12 +59,10 @@ export default function Navbar({
   ];
 
   const privateLinks = [
-    { name: "Add Book", href: "/add-book" },
-    { name: "My Books", href: "/my-books" },
-    { name: "My Borrows", href: "/my-borrows" },
+    { name: "Dashboard", href: "/my-books" },
   ];
 
-  const links = user
+  const links = activeUser
     ? [...publicLinks, ...privateLinks]
     : publicLinks;
 
@@ -103,7 +119,7 @@ export default function Navbar({
 
         {/* Desktop Auth */}
         <div className="hidden items-center gap-4 lg:flex">
-          {!user ? (
+          {!activeUser ? (
             <>
               <Link
                 href="/login"
@@ -125,10 +141,10 @@ export default function Navbar({
                 onClick={() => setProfileOpen(!profileOpen)}
                 className="flex items-center gap-2 rounded-full border border-[#E9E3D8] p-1.5 pr-3"
               >
-                {user.image ? (
+                {activeUser.image ? (
                   <img
-                    src={user.image}
-                    alt={user.name}
+                    src={activeUser.image}
+                    alt={activeUser.name}
                     className="h-9 w-9 rounded-full object-cover"
                   />
                 ) : (
@@ -138,7 +154,7 @@ export default function Navbar({
                 )}
 
                 <span className="text-sm font-semibold text-[#172B3A]">
-                  {user.name}
+                  {activeUser.name}
                 </span>
 
                 <ChevronDown size={16} />
@@ -147,7 +163,7 @@ export default function Navbar({
               {profileOpen && (
                 <div className="absolute right-0 top-14 w-56 rounded-xl border border-[#E9E3D8] bg-white p-2 shadow-xl">
                   <p className="px-3 py-2 text-xs text-gray-500">
-                    {user.email}
+                    {activeUser.email}
                   </p>
 
                   <Link
@@ -162,7 +178,7 @@ export default function Navbar({
                   <button
                     onClick={() => {
                       setProfileOpen(false);
-                      onLogout?.();
+                      void handleLogout();
                     }}
                     className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-600 hover:bg-red-50"
                   >
@@ -204,7 +220,7 @@ export default function Navbar({
               </Link>
             ))}
 
-            {!user ? (
+            {!activeUser ? (
               <div className="mt-3 grid grid-cols-2 gap-3">
                 <Link
                   href="/login"
@@ -226,7 +242,7 @@ export default function Navbar({
               <button
                 onClick={() => {
                   setMobileOpen(false);
-                  onLogout?.();
+                  void handleLogout();
                 }}
                 className="mt-3 flex items-center gap-3 rounded-lg px-4 py-3 text-sm text-red-600 hover:bg-red-50"
               >

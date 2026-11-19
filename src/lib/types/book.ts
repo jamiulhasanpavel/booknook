@@ -6,6 +6,9 @@ export interface Book {
   category: "Fiction" | "Science" | "History" | "Kids" | "Others";
   image: string;
   description: string;
+  readingContent?: string;
+  readingUrl?: string;
+  readingSource?: string;
   totalCopies: number;
   availableCopies: number;
   addedBy: {
