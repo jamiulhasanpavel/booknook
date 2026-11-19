@@ -21,3 +21,70 @@ body {
   background: #d9b779;
   color: #172b3a;
 }
+
+@keyframes booknook-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.booknook-enter {
+  animation: booknook-enter 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.booknook-stagger > * {
+  animation: booknook-enter 650ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.booknook-stagger > :nth-child(2) {
+  animation-delay: 90ms;
+}
+
+.booknook-stagger > :nth-child(3) {
+  animation-delay: 180ms;
+}
+
+.booknook-stagger > :nth-child(4) {
+  animation-delay: 270ms;
+}
+
+@keyframes booknook-border-color {
+  0%,
+  100% {
+    border-color: #e9e3d8;
+  }
+
+  50% {
+    border-color: #d9b779;
+  }
+}
+
+.booknook-color-border {
+  position: relative;
+  border: 1px solid #e9e3d8;
+  animation: booknook-border-color 4s ease-in-out infinite;
+}
+
+.booknook-stagger > .booknook-color-border {
+  animation:
+    booknook-enter 650ms cubic-bezier(0.2, 0.7, 0.2, 1) both,
+    booknook-border-color 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

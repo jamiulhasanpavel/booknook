@@ -49,7 +49,7 @@ export default function NewArrivals() {
       <div className="mx-auto max-w-[1280px]">
 
         {/* Heading */}
-        <div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <div className="booknook-enter mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
             <p className="mb-3 text-xs font-bold uppercase tracking-[4px] text-[#B28A4B]">
               Fresh From Our Library
@@ -76,7 +76,7 @@ export default function NewArrivals() {
 
         {/* Loading */}
         {loading && (
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="booknook-stagger grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, index) => (
               <div key={index} className="space-y-4 rounded-2xl bg-white p-4">
                 <Skeleton className="h-[280px] w-full rounded-xl" />

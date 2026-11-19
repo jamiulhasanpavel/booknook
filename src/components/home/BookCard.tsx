@@ -5,7 +5,7 @@ import type { Book } from "@/lib/types/book";
 
 export default function BookCard({ book }: { book: Book }) {
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#E9E3D8] bg-white transition duration-300 hover:-translate-y-2 hover:shadow-xl">
+    <article className="booknook-color-border group flex h-full flex-col overflow-hidden rounded-2xl bg-white transition duration-300 hover:-translate-y-2 hover:shadow-xl">
 
       {/* Book Image */}
       <div className="relative h-[280px] overflow-hidden bg-[#F0EDE6]">
